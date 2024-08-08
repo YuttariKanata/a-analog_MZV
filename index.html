@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MZV Calculator 2</title>
+</head>
+<body>
+    <h1>Multiple Zeta Value Calculator 2</h1>
+    <div id="inputs">
+        <!-- 13個の入力欄を作成 -->
+        <label for="input0">k1 :</label>
+        <input type="number" id="input0" min="0" value="2"><br>
+        <label for="input0">k2 :</label>
+        <input type="number" id="input1" min="0" value="3"><br>
+        <label for="input0">k3 :</label>
+        <input type="number" id="input2" min="0" value="0"><br>
+        <label for="input0">k4 :</label>
+        <input type="number" id="input3" min="0" value="0"><br>
+        <label for="input0">k5 :</label>
+        <input type="number" id="input4" min="0" value="0"><br>
+        <label for="input0">k6 :</label>
+        <input type="number" id="input5" min="0" value="0"><br>
+        <label for="input0">k7 :</label>
+        <input type="number" id="input6" min="0" value="0"><br>
+        <label for="input0">k8 :</label>
+        <input type="number" id="input7" min="0" value="0"><br>
+        <label for="input0">k9 :</label>
+        <input type="number" id="input8" min="0" value="0"><br>
+        <label for="input0">k10:</label>
+        <input type="number" id="input9" min="0" value="0"><br>
+        
+        <label for="input0">e1 :</label>
+        <input type="number" id="input10" value="0"><br>
+        <label for="input0">e2 :</label>
+        <input type="number" id="input11" value="-1"><br>
+        <label for="input0">e3 :</label>
+        <input type="number" id="input12" value="0"><br>
+        <label for="input0">e4 :</label>
+        <input type="number" id="input13" value="0"><br>
+        <label for="input0">e5 :</label>
+        <input type="number" id="input14" value="0"><br>
+        <label for="input0">e6 :</label>
+        <input type="number" id="input15" value="0"><br>
+        <label for="input0">e7 :</label>
+        <input type="number" id="input16" value="0"><br>
+        <label for="input0">e8 :</label>
+        <input type="number" id="input17" value="0"><br>
+        <label for="input0">e9 :</label>
+        <input type="number" id="input18" value="0"><br>
+        <label for="input0">e10:</label>
+        <input type="number" id="input19" value="0"><br>
+
+        <label for="input0">iterations:</label>
+        <input type="number" id="input20" min="5" value="1000000"><br>
+        <label for="input0">a :</label>
+        <input type="number" id="input21" value="1"> /
+        <input type="number" id="input22" value="2"><br>
+        <label for="input0">precision:</label>
+        <input type="number" id="input23" min="20" value="200"><br>
+    </div>
+
+    <div id="result1"></div>
+    <div id="result2"></div>
+    <button onclick="pressBtn()">Calculate</button>
+    <p>aは分数で入力してね<br>
+    大きすぎる値を入れるとメモリ不足で止まる可能性があるので、その時はリロードしてください<br>
+    precisionは10進数での精度です<br>
+    iterations:4000000ぐらいまで試してみましょう。<br>
+    前の計算機:<a href="https://yuttarikanata.github.io/yk495.github.io/">https://yuttarikanata.github.io/yk495.github.io/</a><br>
+    作者はメモリ管理をよく把握してないです。怖いので適度にリロードしましょう。<br>
+    それでも怖いのでブラウザを閉じましょう。<br>
+    それでも怖い?ならpcを再起動しましょう<br>
+    メモリが足りない？もっと計算したい？作者に怒鳴りつけましょう<br>
+    Twitter(X)のアカウント:<a href="https://twitter.com/eyV6a3AdWcAoZhY">@eyV6a3AdWcAoZhY</a><br>
+    元のC言語で書かれたプログラムが欲しい？作者に怒鳴りつけましょう。<br>
+    それか、GitHubでもいいかもしれません<br>
+    GitHub:<a href="https://github.com/YuttariKanata">https://github.com/YuttariKanata</a><br>
+    どうやってこんなに高速に計算してるか分からない？作者に怒鳴りつけましょう。<br>
+    それか、Mathlogで怒鳴りつけてもいいかもしれませんね<br>
+    作者のMathlog:<a href="https://mathlog.info/users/lXPsXdHEzQViJHdnC7jkXrwtwM33">https://mathlog.info/users/lXPsXdHEzQViJHdnC7jkXrwtwM33</a><br>
+    ああ、あと作者は 数値計算bot というbotを手動で運営しています。(botとは？)<br>
+    もし数値計算がしたかったら力になれるかもしれません。TwitterのDMで怒鳴りつけましょう。<a href="https://twitter.com/suutikeisan_bot">@suutikeisan_bot</a></p>
+
+    <script src="Azeta.js"></script>
+    <script>
+        var azeta = Module.cwrap("azeta", "number", ["number", "number"]);
+
+        function pressBtn(){
+            var input_array = new Int32Array(34);
+
+            // 各入力欄の値を取得し、Int32Arrayに設定
+            //k_index [4]-[13]
+            for (var i = 0; i <= 9; i++) {
+                var inputValue = parseInt(document.getElementById("input" + i).value);
+                input_array[i+4] = inputValue;
+            }
+            //e_index [14]-[23] & e_index sign [24]-[33]
+            for (var i = 10; i <= 19; i++) {
+                var inputValue = parseInt(document.getElementById("input" + i).value);
+                console.log(i," is ",inputValue);
+                input_array[i+4] = Math.abs(inputValue);
+                if (Number(inputValue) >= 0){
+                    input_array[i+14] = 0;
+                } else {
+                    input_array[i+14] = 1;
+                }
+            }
+            input_array[0] = parseInt(document.getElementById("input23").value);//  [0]:精度(decimal)
+            input_array[1] = parseInt(document.getElementById("input20").value);//  [1]:上限
+            input_array[2] = parseInt(document.getElementById("input21").value);//  [2]/[3]:a
+            input_array[3] = parseInt(document.getElementById("input22").value);
+            console.log("The starting array is:", input_array);
+
+            var input_len = input_array.length;
+            var output_len = Math.round(5+2*input_array[0]);   //詳細はazeta.cのstr_value
+            var bytes_per_element = input_array.BYTES_PER_ELEMENT;
+
+            console.log("bytes pre element:",bytes_per_element);
+            console.log("input_len:",input_len);
+            console.log("output_len:",output_len);
+            
+            var input_ptr = Module._malloc(input_len * bytes_per_element);
+            var output_ptr = Module._malloc(output_len * bytes_per_element);
+            
+            Module.HEAP32.set(input_array, input_ptr / bytes_per_element);
+            var expis = azeta(input_ptr, output_ptr);
+            var output_array = new Int32Array(Module.HEAP32.buffer, output_ptr, output_len);
+
+            
+
+            // 11が最初に現れるインデックスを見つける
+            var splitIndex = output_array.indexOf(11);
+
+            if (splitIndex !== -1) {
+                // 前半部分を output_array1 に格納（11は含めない）
+                var output_array1 = output_array.slice(2, splitIndex);
+                
+                // 後半部分を output_array2 に格納（11は含めない）
+                var output_array2 = output_array.slice(splitIndex + 1);
+                
+                console.log("output_array1:", output_array1);
+                console.log("output_array2:", output_array2);
+            } else {
+                console.log("11が見つかりませんでした。");
+            }
+
+            
+            console.log("The starting array was:", input_array);
+            console.log("The result read is:", output_array);
+            console.log("The exp is:", expis);
+
+            var resultDiv = document.getElementById("result1");
+
+            expis = output_array[0];
+            if (expis % 2 == 0) {
+                expis = expis/2;
+            }else{
+                expis = (1-expis)/2;
+            }
+            
+
+            if(Number(expis) < 0){
+                answer_array = Int32Array(output_array1.length - expis);
+                add_array = Int32Array(-expis);
+                answer_array.set(add_array,0);
+                answer_array.set(output_array1,add_array.length);
+
+                answerString = answer_array.join('');
+                formattedString = '0.' + answerString;
+
+                resultDiv.textContent = "epsilon Result: " + formattedString;
+            }else if(Number(expis) == 0){
+                answerString = output_array1.join('');
+                formattedString = '0.' + answerString;
+
+                resultDiv.textContent = "epsilon Result: " + formattedString;
+            }else if(Number(expis) > 0){
+                substring1 = output_array1.slice(0, expis);
+                substring2 = output_array1.slice(expis);
+                answerString = substring1.join('') + '.' +substring2.join('');
+
+                formattedString = answerString;
+
+                resultDiv.textContent = "epsilon Result: " + formattedString;
+            }
+            
+
+            var resultDiv = document.getElementById("result2");
+
+            expis = output_array[1];
+            if (expis % 2 == 0) {
+                expis = expis/2;
+            }else{
+                expis = (1-expis)/2;
+            }
+
+            var answerString;
+            var formattedString;
+            if(Number(expis) < 0){
+                var answer_array = new Int32Array(output_array2.length - expis);
+                var add_array = new Int32Array(-expis);
+                answer_array.set(add_array,0);
+                answer_array.set(output_array2,add_array.length);
+
+                answerString = answer_array.join('');
+                formattedString = '0.' + answerString;
+
+                resultDiv.textContent = "Result: " + formattedString;
+            }else if(Number(expis) == 0){
+                answerString = output_array2.join('');
+                formattedString = '0.' + answerString;
+
+                resultDiv.textContent = "Result: " + formattedString;
+            }else if(Number(expis) > 0){
+                var substring1 = output_array2.slice(0, expis);
+                var substring2 = output_array2.slice(expis);
+                answerString = substring1.join('') + '.' +substring2.join('');
+
+                formattedString = answerString;
+
+                resultDiv.textContent = "Result: " + formattedString;
+            }
+
+            Module._free(input_ptr);
+            Module._free(output_ptr);
+        }
+    </script>
+</body>
+</html>
