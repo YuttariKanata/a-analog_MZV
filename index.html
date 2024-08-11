@@ -2,12 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>MZV Calculator 2</title>
+    <title>a-analog MZV Calculator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Multiple Zeta Value Calculator 2</h1>
-    <div id="inputs">
-        <!-- 13個の入力欄を作成 -->
+    <h1>a-analog Multiple Zeta Value Calculator</h1>
+    <div id="inputs" class="spinner">
+        <!-- 24個の入力欄 -->
         <label for="input0">k1 :</label>
         <input type="number" id="input0" min="0" value="2"><br>
         <label for="input0">k2 :</label>
@@ -52,20 +53,27 @@
 
         <label for="input0">iterations:</label>
         <input type="number" id="input20" min="5" value="1000000"><br>
-        <label for="input0">a :</label>
+        <label for="input0"><span class="thin-space2"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ThinSpace;a:</label>
         <input type="number" id="input21" value="1"> /
         <input type="number" id="input22" value="2"><br>
-        <label for="input0">precision:</label>
+        <label for="input0"><span class="thin-space1"></span>precision:</label>
         <input type="number" id="input23" min="20" value="200"><br>
     </div>
 
     <div id="result1"></div>
     <div id="result2"></div>
-    <button onclick="pressBtn()">Calculate</button>
+    <div class="spinner">
+        <button onclick="pressBtn()">Calculate</button>
+    </div>
     <p>aは分数で入力してね<br>
-    大きすぎる値を入れるとメモリ不足で止まる可能性があるので、その時はリロードしてください<br>
+    ε算法を使っているのでiterationsを2^n+2の形で入力すると精度がよくなります(は？)<br>
+    2^18+2= 262146 , 2^19+2= 524290 , 2^20+2= 1048578 , 2^21+2= 2097154 , 2^22+2= 4194306 , 2^23+2= 8388610<br>
+    ここら辺の値が参考です。下に表を書いておきます<br>
+    精度の保証はしませんが、epsilon Result:と書かれたものは(多分めちゃくちゃ)精度がいいはずです <br>
+    epsilon Result:の精度の確認方法として、精度を一段階ずつ上げて行って収束の具合を確認するというものがあります(保証はない)<br>
+    大きすぎる値で何回も計算するとメモリ不足で止まる可能性があるので、その時はリロードしてください<br>
+    ていうか一回計算するごとにリロードしてください<br>
     precisionは10進数での精度です<br>
-    iterations:4000000ぐらいまで試してみましょう。<br>
     前の計算機:<a href="https://yuttarikanata.github.io/yk495.github.io/">https://yuttarikanata.github.io/yk495.github.io/</a><br>
     作者はメモリ管理をよく把握してないです。怖いので適度にリロードしましょう。<br>
     それでも怖いのでブラウザを閉じましょう。<br>
@@ -80,7 +88,132 @@
     作者のMathlog:<a href="https://mathlog.info/users/lXPsXdHEzQViJHdnC7jkXrwtwM33">https://mathlog.info/users/lXPsXdHEzQViJHdnC7jkXrwtwM33</a><br>
     ああ、あと作者は 数値計算bot というbotを手動で運営しています。(botとは？)<br>
     もし数値計算がしたかったら力になれるかもしれません。TwitterのDMで怒鳴りつけましょう。<a href="https://twitter.com/suutikeisan_bot">@suutikeisan_bot</a></p>
-
+    <table border="2">
+        <tr>
+            <td>n</td>
+            <td>2^n+2</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>18</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>34</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>66</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>130</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>258</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>514</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>1026</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>2050</td>
+        </tr>
+        <tr>
+            <td>12</td>
+            <td>4098</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>8194</td>
+        </tr>
+        <tr>
+            <td>14</td>
+            <td>16386</td>
+        </tr>
+        <tr>
+            <td>15</td>
+            <td>32770</td>
+        </tr>
+        <tr>
+            <td>16</td>
+            <td>65538</td>
+        </tr>
+        <tr>
+            <td>17</td>
+            <td>131074</td>
+        </tr>
+        <tr>
+            <td>18</td>
+            <td>262146</td>
+        </tr>
+        <tr>
+            <td>19</td>
+            <td>524290</td>
+        </tr>
+        <tr>
+            <td>20</td>
+            <td>1048578</td>
+        </tr>
+        <tr>
+            <td>21</td>
+            <td>2097154</td>
+        </tr>
+        <tr>
+            <td>22</td>
+            <td>4194306</td>
+        </tr>
+        <tr>
+            <td>23</td>
+            <td>8388610</td>
+        </tr>
+        <tr>
+            <td>24</td>
+            <td>16777218</td>
+        </tr>
+        <tr>
+            <td>25</td>
+            <td>33554434</td>
+        </tr>
+        <tr>
+            <td>26</td>
+            <td>67108866</td>
+        </tr>
+        <tr>
+            <td>27</td>
+            <td>134217730</td>
+        </tr>
+        <tr>
+            <td>28</td>
+            <td>268435458</td>
+        </tr>
+        <tr>
+            <td>29</td>
+            <td>536870914</td>
+        </tr>
+        <tr>
+            <td>30</td>
+            <td>1073741826</td>
+        </tr>
+    </table>   
     <script src="Azeta.js"></script>
     <script>
         var azeta = Module.cwrap("azeta", "number", ["number", "number"]);
@@ -115,7 +248,7 @@
             var output_len = Math.round(5+2*input_array[0]);   //詳細はazeta.cのstr_value
             var bytes_per_element = input_array.BYTES_PER_ELEMENT;
 
-            console.log("bytes pre element:",bytes_per_element);
+            console.log("bytes per element:",bytes_per_element);
             console.log("input_len:",input_len);
             console.log("output_len:",output_len);
             
@@ -125,7 +258,7 @@
             Module.HEAP32.set(input_array, input_ptr / bytes_per_element);
             var expis = azeta(input_ptr, output_ptr);
             var output_array = new Int32Array(Module.HEAP32.buffer, output_ptr, output_len);
-
+            console.log("output_array:",output_array);
             
 
             // 11が最初に現れるインデックスを見つける
@@ -168,12 +301,12 @@
                 answerString = answer_array.join('');
                 formattedString = '0.' + answerString;
 
-                resultDiv.textContent = "epsilon Result: " + formattedString;
+                resultDiv.textContent = "Result: " + formattedString;
             }else if(Number(expis) == 0){
                 answerString = output_array1.join('');
                 formattedString = '0.' + answerString;
 
-                resultDiv.textContent = "epsilon Result: " + formattedString;
+                resultDiv.textContent = "Result: " + formattedString;
             }else if(Number(expis) > 0){
                 substring1 = output_array1.slice(0, expis);
                 substring2 = output_array1.slice(expis);
@@ -181,7 +314,7 @@
 
                 formattedString = answerString;
 
-                resultDiv.textContent = "epsilon Result: " + formattedString;
+                resultDiv.textContent = "Result: " + formattedString;
             }
             
 
@@ -205,12 +338,12 @@
                 answerString = answer_array.join('');
                 formattedString = '0.' + answerString;
 
-                resultDiv.textContent = "Result: " + formattedString;
+                resultDiv.textContent = "epsilon Result: " + formattedString;
             }else if(Number(expis) == 0){
                 answerString = output_array2.join('');
                 formattedString = '0.' + answerString;
 
-                resultDiv.textContent = "Result: " + formattedString;
+                resultDiv.textContent = "epsilon Result: " + formattedString;
             }else if(Number(expis) > 0){
                 var substring1 = output_array2.slice(0, expis);
                 var substring2 = output_array2.slice(expis);
@@ -218,7 +351,7 @@
 
                 formattedString = answerString;
 
-                resultDiv.textContent = "Result: " + formattedString;
+                resultDiv.textContent = "epsilon Result: " + formattedString;
             }
 
             Module._free(input_ptr);

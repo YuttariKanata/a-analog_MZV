@@ -1,0 +1,88 @@
+/* ダークモード全体のスタイル */
+body {
+    background-color: #222222; /* ダークモードの背景色 */
+    color: #ccc; /* ダークモードのテキスト色 */
+    font-family: '03SmartFontUI','Consolas',Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 入力ボックスのスタイル */
+input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
+    background-color: #333; /* 入力ボックスの背景色 */
+    color: #ccc; /* 入力文字の色 */
+    border: 1px solid #444; /* ボーダーの色 */
+    border-radius: 5px; /* ボーダーの角の丸み */
+    
+    padding: 5px; /* 内側の余白 */
+    /*width: 100%; /* 幅を親要素に合わせる */
+    box-sizing: border-box; /* 幅にボーダーを含める */
+}
+
+/* フォーカス時のスタイル */
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="number"]:focus {
+    border: 2px solid #172c56;
+    outline: none; /* デフォルトのアウトラインを削除 */
+}
+
+/* フォーカス時のスタイル */
+input[type="text"]:hover, input[type="password"]:hover, input[type="email"]:hover, input[type="number"]:hover {
+    background-color: #293035;
+    outline: none; /* デフォルトのアウトラインを削除 */
+}
+
+.thin-space1 {
+    display: inline-block;
+    width: 0.9px; /* スペースの幅を調整 */
+}
+
+.thin-space2 {
+    display: inline-block;
+    width: 3.9px; /* スペースの幅を調整 */
+}
+
+.spinner {
+    /*display: flex;*/
+    align-items: center;
+    /*margin-bottom: 20px;*/
+}
+
+
+.spinner button {
+    background-color: #024; /* ボタンの背景色 */
+    color: #bbf; /* ボタンの文字色 */
+    border: 1.2px solid #0056b3; /* ボタンのボーダー色 */
+    padding: 4px 8px; /* ボタンの内側の余白 */
+    border-radius: 5px; /* ボタンの角を丸める */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    font-size:16px; /* ボタンのフォントサイズ */
+    margin: 0 4px; /* ボタンの左右のマージン */
+    transition: background-color 0.2s; /* 背景色の変更にアニメーションを追加 */
+    margin-top: 10px;
+}
+
+.spinner button:hover {
+    background-color: rgb(0, 64, 128)/* ホバー時の背景色 */
+}
+
+.spinner button:active {
+    background-color: rgb(0, 50, 100); /* クリック時の背景色 */
+}
+
+a {
+    color: #1e90ff; /* 通常時のリンクの色 */
+    text-decoration: none; /* 下線を削除 */
+}
+
+a:visited {
+    color: #476bc5; /* 訪問済みリンクの色 */
+}
+
+a:hover {
+    color: #4ff2a1; /* ホバー時のリンクの色 */
+}
+
+a:active {
+    color: #33b0d6; /* クリック時のリンクの色 */
+}
+

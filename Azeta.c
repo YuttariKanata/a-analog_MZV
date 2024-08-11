@@ -28,38 +28,41 @@ long azeta(unsigned long* input_ptr_Com,unsigned long* output_ptr){
 
     //fprintf(stderr,"start\n");
     
-    long exp_ptr=987;//てきとうな数　あとで変わるしいいじゃろ
+    long exp_ptr = 987;//てきとうな数　あとで変わるしいいじゃろ
     
 
-    //精度(2進数)
+    //精度(10進数)
     unsigned long prec10 = input_ptr_Com[0];
     //fprintf(stderr,"prec:%lu\n",prec);
 
-    //精度(10進数)
+    //精度(2進数)
     unsigned long prec = (unsigned long)(roundl((long double)(prec10 * 3.32192809489L))+2UL); // 念押しの+2
     //fprintf(stderr,"prec10:%lu\n",prec10);
 
     
     //次のmallocに入れるためだけの変数 数字の部分+符号1bit+終端記号1bit
-    size_t buffer_size = prec10+2;
+    size_t buffer_size = prec;
+    fprintf(stderr,"buffer_size:%lu\n",buffer_size);
+    fprintf(stderr,"prec10:%lu\n",prec10);
+    fprintf(stderr,"prec:%lu\n",prec);
 
     //出力用の文字列1
     char *str_value1 = (char *)malloc(buffer_size * sizeof(char));
     //もし帰ってきたのがNULLなら失敗してる
     if (str_value1 == NULL) {
-        //fprintf(stderr, "メモリの割り当てに失敗しました。\n");
+        fprintf(stderr, "メモリの割り当てに失敗しました。\n");
         return -987;
     }else{
-        //fprintf(stderr, "メモリの割り当てに成功しました。\n");
+        fprintf(stderr, "メモリの割り当てに成功しました。\n");
     }
     //出力用の文字列2
     char *str_value2 = (char *)malloc(buffer_size * sizeof(char));
     //もし帰ってきたのがNULLなら失敗してる
     if (str_value2 == NULL) {
-        //fprintf(stderr, "メモリの割り当てに失敗しました。\n");
+        fprintf(stderr, "メモリの割り当てに失敗しました。\n");
         return -654;
     }else{
-        //fprintf(stderr, "メモリの割り当てに成功しました。\n");
+        fprintf(stderr, "メモリの割り当てに成功しました。\n");
     }
 
     //gmpの小数の精度設定
@@ -78,7 +81,7 @@ long azeta(unsigned long* input_ptr_Com,unsigned long* output_ptr){
             r++;
         }
     }
-    //fprintf(stderr,"r:%lu\n",r);
+    fprintf(stderr,"r:%lu\n",r);
 
 
     //反復回数の上限
@@ -104,14 +107,18 @@ long azeta(unsigned long* input_ptr_Com,unsigned long* output_ptr){
     mpz_t buf2;
     mpz_init(buf2);
 
+    fprintf(stderr,"hey\n");
+
+
     //0~pの配列 MZVの途中計算を入れるが、本来は1~p(julia)だった。
     mpf_t zeta_array[p+1];          //0~pの配列を作る
     for ( i = 0; i < p+1; i++){
         mpf_init(zeta_array[i]);    //初期化
     }
+    fprintf(stderr,"hey\n");
     //a類似の値を入れて置く配列。本来は1~p+r-1(julia)だった。
     mpf_t bino_array[r];            //0~p+r-1の配列を作る
-    for ( i = 0; i < p+r; i++)
+    for ( i = 0; i < r; i++)
     {
         mpf_init(bino_array[i]);
     }
@@ -147,6 +154,7 @@ long azeta(unsigned long* input_ptr_Com,unsigned long* output_ptr){
 
 
     //#################ここから計算#######################################
+    fprintf(stderr,"calculation zone\n");
 
 
     mpf_set(bino_array[1],a);
@@ -206,6 +214,9 @@ long azeta(unsigned long* input_ptr_Com,unsigned long* output_ptr){
     unsigned long exp_const1;
     unsigned long exp_const2;
     unsigned long exp_flag;
+
+    fprintf(stderr,"main zone\n");
+
     for ( r = 2; r <= r_const; r++)
     {
         //co_array = array[r~p+r-1] (p個)
@@ -273,6 +284,7 @@ long azeta(unsigned long* input_ptr_Com,unsigned long* output_ptr){
 
         for ( i = 2; i <= p; i++)
         {
+            //fprintf(stderr,"i:%lu\n",i);
             mpf_add(zeta_array[i],zeta_array[i],zeta_array[i-1]);
         }
         //fprintf(stderr,"zeta_array2\n");
@@ -280,42 +292,51 @@ long azeta(unsigned long* input_ptr_Com,unsigned long* output_ptr){
         //{
         //    gmp_fprintf(stderr,"    %.*Ff\n",prec10,zeta_array[i]);
         //}
-        //fprintf(stderr,"r_now:%lu\n",r);
+        fprintf(stderr,"r_now:%lu\n",r);
     }
 
-    gmp_fprintf(stderr,"result1:%.*Ff\n",prec10,zeta_array[p]);
+    //gmp_fprintf(stderr,"result1:%.*Ff\n",prec10,zeta_array[p]);
+    fprintf(stderr,"main zone finish\n");
+    fprintf(stderr,"prec:%lu\n",prec);
+    fprintf(stderr,"prec10:%lu\n",prec10);
+    fprintf(stderr,"buf_size:%lu\n",buffer_size);
+    fprintf(stderr,"p:%lu\n",p);
 
-    //gmp_fprintf(stderr,"%.*Ff\n",30,zeta_array[p]);//結果を表示
-    mpf_get_str(str_value1, &exp_ptr, 10, prec10, zeta_array[p]);
+    gmp_fprintf(stderr,"%.*Ff\n",30,zeta_array[p]);//結果を表示
+    mpf_get_str(str_value1, &exp_ptr, 10, prec, zeta_array[p]);
+    fprintf(stderr,"why?\n");
+    fprintf(stderr,"exp:%lu\n",exp_ptr);
     if (exp_ptr>0){
-        output_ptr[0]=(unsigned long)(2UL*abs(exp_ptr));
+        output_ptr[0UL]=(unsigned long)(2UL*abs(exp_ptr));
     }
     else if (exp_ptr<0){
-        output_ptr[0] = (unsigned long)(2UL*abs(exp_ptr)+1);
+        output_ptr[0UL] = (unsigned long)(2UL*abs(exp_ptr)+1);
     }
     else{
-        output_ptr[0] = 0UL;
+        output_ptr[0UL] = 0UL;
     }
+
+    fprintf(stderr,"hey you\n");
     
     size_t length_sigma = strlen(str_value1);    //prec10+2
     fprintf(stderr,"length_sigma:%ld\n",length_sigma);
     for ( i = 0; i < prec10; ++i) {       //0~prec10+1   i+2は2~prec10+3
         if(str_value1[i] == '.'){
-            output_ptr[i+2] = 10;
+            output_ptr[i+2UL] = 10;
             //もし小数点だったら10を入れる。
             continue;
         }else if (str_value1[i] == 0)
         {
-            output_ptr[i+2] = 0;
+            output_ptr[i+2UL] = 0;
         
         }else{
-            output_ptr[i+2] = (unsigned long)(str_value1[i]-48);
+            output_ptr[i+2UL] = (unsigned long)(str_value1[i]-48);
             //ASCIIで数字nはn+48とあらわされるから48を引くとその数字が手に入る。
         }
         //fprintf(stderr,"i+2:%ld[%ld]\n",i+2,output_ptr[i+2]);
     }
 
-    output_ptr[length_sigma+2] = 11UL;      //prec10+4
+    output_ptr[length_sigma+2UL] = 11UL;      //prec10+4
     //fprintf(stderr,"length_sigma+2:%ld\n",length_sigma+2);
     //区切りを表すための数字として11 (10は小数点として使う)
     
@@ -371,7 +392,7 @@ long azeta(unsigned long* input_ptr_Com,unsigned long* output_ptr){
     //########## mpz_t,mpf_t型変数の解放 ##########
 
     //gmp_fprintf(stderr,"%.*Ff\n",30,epsilon_array2[length_buf-array_dec]);//結果を表示
-    mpf_get_str(str_value2, &exp_ptr, 10, prec10, epsilon_array2[length_buf-array_dec]);
+    mpf_get_str(str_value2, &exp_ptr, 10, prec, epsilon_array2[length_buf-array_dec]);
     if (exp_ptr>0){
         output_ptr[1]=(unsigned long)(2UL*abs(exp_ptr));
     }
